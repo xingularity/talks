@@ -1,0 +1,54 @@
+
+\documentclass[a4paper]{article} %
+\usepackage{graphicx,amssymb} %
+
+\textwidth=15cm \hoffset=-1.2cm %
+\textheight=25cm \voffset=-2cm %
+
+\pagestyle{empty} %
+
+\date{} %
+
+\def\keywords#1{\begin{center}{\bf Keywords}\\{#1}\end{center}} %
+
+\def\titulo#1{\title{#1}} %
+\def\autores#1{\author{#1}} %
+
+% Please, do not change any of the above lines
+
+
+\begin{document}
+
+% Type down your paper title
+\titulo{OpenLCDFDM: Liquid crystal device simulation with Python}
+
+% Authors
+\autores{Zong-han, Xie \\
+       \tt{icbm0926@gmail.com} % Only one corresponding e-mail
+       }%
+
+\maketitle
+
+\thispagestyle{empty}
+
+
+% The abstract
+
+\begin{abstract}
+LCD is a mature display technology widely adopted on consumer electronics. However, there are no open source simulation code to research its physics. OpenLCDFDM is developed to fill this gap. \\
+Liquid crystal is a birefringence material which , LCD OpenLCDFDM uses finite-difference scheme to simulate liquid crystal dynamics under external electric field. And then, it calculates transmission of light under given liquid crystal orientations. Finally, Visual perception of color is calculated based on the transmissions.
+
+\end{abstract}
+
+\keywords{LCD simulation, finite-difference, Cython} % Write down at least 3 Keywords
+
+
+% \section{Introduction}
+
+\begin{thebibliography}{9}
+\bibitem{POCHIYEH}
+Optics of Liquid Crystal Display by Pochi Yeh and Claire Gu. ISBN: 0470181761
+\bibitem{ShinTson}
+Fundamentals of Liquid Crystal Devices by Shin-Tson Wu and Deng-Ke Yang. ISBN: 978-0-470-03202-2
+\end{thebibliography}
+\end{document}
