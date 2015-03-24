@@ -1,6 +1,7 @@
-
 \documentclass[a4paper]{article} %
+\usepackage{multicol}
 \usepackage{graphicx,amssymb} %
+\usepackage{hyperref}
 
 \textwidth=15cm \hoffset=-1.2cm %
 \textheight=25cm \voffset=-2cm %
@@ -35,20 +36,37 @@
 % The abstract
 
 \begin{abstract}
-LCD is a mature display technology widely adopted on consumer electronics. However, there are no open source simulation code to research its physics. OpenLCDFDM is developed to fill this gap. \\
-Liquid crystal is a birefringence material which , LCD OpenLCDFDM uses finite-difference scheme to simulate liquid crystal dynamics under external electric field. And then, it calculates transmission of light under given liquid crystal orientations. Finally, Visual perception of color is calculated based on the transmissions.
-
+LCD is a mature display technology and widely adopted in consumer electronics. Being able to simulate LCD device is important to understand how it works as well as improve LCD technology. OpenLCDFDM is a program which uses finite difference method to perform LCD simulations. This talk will give introductions of how an LCD display works and the methods used in OpenLCDFDM to simulate such devices.
 \end{abstract}
 
-\keywords{LCD simulation, finite-difference, Cython} % Write down at least 3 Keywords
+\begin{multicols}{2}
+\section{Introduction}
+OpenLCDFDM is a finite difference simulation code for liquid crystal device. It can perform parallel simulations through OpenMP. \\
+
+LCD simulation contains three different parts of calculations. The first one is to simulate liquid crystal transition under external electric field, this transition is called Fréedericksz transition. The simulation of Fréedericksz transition is done by solving Poisson's equation and minimizing the Oseen-Frank free energy. The second one is to calculate polarization of light when it propagates through the liquid crystal device. Extended Jones matrix method is used to calculate polarization of light and the transmission. The last part is colorimetry calculation. It calculates human color perception by the light emitted from LCD devices.\\
+
+Simulation codes are written in C++ and Cython is used to provide Python interfaces, so that users can run simulations or build user interfaces through Python while no loss of performance.
+
+\section{Simulate liquid crystal dynamics}
 
 
-% \section{Introduction}
+\section{Optics calculation}
+
+\section{Colorimetry calculation}
+
+\section{Conclusion}
+
+
+\end{multicols}
+\keywords{LCD simulation, finite-difference, optics, Cython, OpenMP} % Write down at least 3 Keywords
+
 
 \begin{thebibliography}{9}
 \bibitem{POCHIYEH}
 Optics of Liquid Crystal Display by Pochi Yeh and Claire Gu. ISBN: 0470181761
 \bibitem{ShinTson}
 Fundamentals of Liquid Crystal Devices by Shin-Tson Wu and Deng-Ke Yang. ISBN: 978-0-470-03202-2
+\bibitem{openlcdfdm}
+\href{https://github.com/xingularity/OpenLCDFDM}{OpenLCDFDM}
 \end{thebibliography}
 \end{document}
