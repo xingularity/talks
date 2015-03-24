@@ -60,7 +60,7 @@ OpenLCDFDM solves Poisson's equation to acquire the distributiuon of the electri
 \nabla\cdot\stackrel{\leftrightarrow}{\epsilon}\cdot\nabla\phi = 0
 \label{eq:Poisson_anisotropiv}
 \end{eqnarray}
-The dielectric constant is expressed in tensor form due to the anisotropic property of the liquid crystal material.
+The dielectric constant $\stackrel{\leftrightarrow}{\epsilon} = \stackrel{\leftrightarrow}{\epsilon}(x,y,z)$ is expressed in tensor form due to the anisotropic property of the liquid crystal material. $\phi=\phi(x,y,z)$ is the electric potential.
 
 When the electric field is applied, liquid crystal would reorientate to minimize the total free energy, this process is referred to as the Fréedericksz transition.
 The total free energy is expressed as following:
@@ -83,7 +83,7 @@ OpenLCDFDM uses C++ for the codes that performs liquid crystal dynamics, optics 
 
 The libraries used in C++ codes include Eigen3\cite{libeigen} and Blitz++\cite{blitz}. Blitz++ provides containers for multi-dimensional arrays, the number of dimension in a blitz++ array can be up to 11 dimensions, it is very convinient to use it to store the directors. Eigen3 also provides array containers and it provides functions such as \emph{SparseLU} or \emph{BiCGSTAB} for linear algebra, these solvers can be helpful while solving the Poisson's equation.
 
-Since the code provides Python interfaces, Python libraries can easily used in running simulations, analyzing and visualizing results.
+Since the code provides Python interfaces, Python libraries can easily adopted in running simulations, analyzing and visualizing results.
 
 \section{Conclusion}
 This code is developed in hopes of bringing the knowledges of the liquid crystal device into open source world and preventing engineers or researchers from reinventing the wheel during their researches into the LCD device.
