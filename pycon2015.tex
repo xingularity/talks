@@ -10,7 +10,7 @@
 
 \date{} %
 
-\def\keywords#1{\begin{center}{\bf Keywords}\\{#1}\end{center}} %
+\def\keywords#1{\begin{center}{\bf Keywords}\\{#1}\end{center}} 
 
 \def\titulo#1{\title{#1}} %
 \def\autores#1{\author{#1}} %
@@ -20,7 +20,7 @@
 
 \begin{document}
 
-\titulo{OpenLCDFDM: Liquid crystal device simulation with Python}
+\titulo{Liquid crystal device simulation with Python}
 
 \autores{Zong-han, Xie \\
        \tt{icbm0926@gmail.com}
@@ -34,59 +34,73 @@
 % The abstract
 
 \begin{abstract}
-LCD is a mature display technology and widely adopted in consumer electronics. Being able to simulate LCD device is important to understand how it works as well as improve LCD technology. OpenLCDFDM is a program which uses finite difference method to perform LCD simulations. This talk will give introductions of how an LCD display works and the methods used in OpenLCDFDM to simulate such devices.
+LCD display is a mature technology and widely adopted in consumer electronics. Being able to simulate such devices is important to understand how it works as well as improve LCD technology. OpenLCDFDM is a program which uses finite difference method to perform LCD simulations. This talk will give introductions of how an LCD display works and the methods used in OpenLCDFDM to simulate such devices.
 \end{abstract}
+
+\keywords{LCD simulation, finite-difference, optics, Cython, OpenMP} % Write down at least 3 Keywords
 
 \begin{multicols}{2}
 \section{Introduction}
 OpenLCDFDM is a finite difference simulation code for liquid crystal device. It can perform parallel simulations through OpenMP. \\
 
-LCD simulation contains three different parts of calculations. The first one is to simulate liquid crystal transition under external electric field, this transition is called Fréedericksz transition. The simulation of Fréedericksz transition is done by solving Poisson's equation and minimizing the Oseen-Frank free energy. The second one is to calculate polarization of light when it propagates through the liquid crystal device. Extended Jones matrix method is used to calculate polarization of light and the transmission. The last part is colorimetry calculation. It calculates human color perception by the light emitted from LCD devices.\\
+LCD simulation contains three different parts of calculations. The first one is to simulate liquid crystal transition under external electric field, this transition is called Fréedericksz transition. The simulation of Fréedericksz transition is done by solving Poisson's equation and minimizing the Oseen-Frank free energy\cite{ShinTson}. The second one is to calculate polarization of light when it propagates through the liquid crystal device. Extended Jones matrix method is used to calculate polarization of light and the transmission\cite{POCHIYEH}. The last part is colorimetry calculation. It calculates color perception of human eye by the light emitted from LCD devices\cite{wiki_colorimetry}.\\
 
-\section{Simulate liquid crystal dynamics}
-Elastic continuum theory is used to model liquid crystal dynamics for LCD. The free energy density for liquid crystal under external electric field (with constant voltage) contains elastic energy density (Oseen-Frank energy) of liquid crystal and electric energy. It is written as 
+\section{Simulation of liquid crystal reorientation}
+Elastic continuum theory is used to model liquid crystal dynamics for LCD. The free energy density for liquid crystal under external electric field (with constant voltage) contains elastic energy density (Oseen-Frank energy) of liquid crystal and electric energy. It is written as\cite{ShinTson}:
 \begin{eqnarray}
 f&=&\frac{1}{2}K_{11}(\nabla\cdot\vec{n})^2 + \frac{1}{2}K_{22}(\vec{n}\cdot\nabla\times\vec{n})^2 \nonumber \\
 &+& \frac{1}{2}K_{33}(\vec{n}\times\nabla\times\vec{n})^2 + q_{0}K_{22}(\vec{n}\cdot\nabla\times\vec{n}) \nonumber \\
 &-&\frac{1}{2}\vec{D}\cdot\vec{E}.
 \label{eq:oseen_frank}
 \end{eqnarray}
-$\vec{n}$ is the director of liquid crystal which gives the local orientation of the liquid crystal molecule. $K_{11}$, $K_{22}$ and $K_{33}$ are Frank elastic constants of liquid crystal. $q_0$ is the chirality and it's given by $q_0 = \frac{2\pi}{P_0}$ where $P_0$ is called the pitch over which the directors twist $360^{\circ}$. $\vec{D}$ and $\vec{E}$ is the the electric displacement and the electric field.
+$f=f(x,y,z)$ is the free energy density of the liquid crystal under the applied electric field. $\vec{n}=\vec{n}(x,y,z)$ is the director of liquid crystal which gives the local orientation of the liquid crystal molecule. $K_{11}$, $K_{22}$ and $K_{33}$ are Frank elastic constants of liquid crystal. $q_0$ is the chirality of cholesterol liquid crystal and it's given by $q_0 = {2\pi}/{P_0}$ where $P_0$ is the distance over which the directors twist $360^{\circ}$. $P_0$ is called the pitched of the liquid crystal. $\vec{D}=\vec{D}(x,y,z)$ and $\vec{E}=\vec{E}(x,y,z)$ are the the electric displacement and the electric field.
 
 OpenLCDFDM solves Poisson's equation to acquire the distributiuon of the electric field inside the LCD device. The Poisson's equation solved by OpenLCDFDM is the following: 
 \begin{eqnarray}
 \nabla\cdot\stackrel{\leftrightarrow}{\epsilon}\cdot\nabla\phi = 0
 \label{eq:Poisson_anisotropiv}
 \end{eqnarray}
-The dielectric constant is expressed in a tensor form due to anisotropic property of the liquid crystal material.
+The dielectric constant is expressed in tensor form due to the anisotropic property of the liquid crystal material.
 
 When the electric field is applied, liquid crystal would reorientate to minimize the total free energy, this process is referred to as the Fréedericksz transition.
 The total free energy is expressed as following:
 \begin{eqnarray}
-F&=&\int f dxdydz.
+F&=&\int f(x,y,z) dxdydz.
 \label{eq:total_free_energy}
 \end{eqnarray}
-In order to minimize the total free energy under applied electric field, OpenLCDFDM solves Euler-Lagrange equations to acquire the distribution of the liquid crystal director which minimize the total free energy.
+In order to minimize the total free energy under applied electric field, OpenLCDFDM solves Euler-Lagrange equations of $f(x,y,z)$ to acquire the distribution of the liquid crystal director which minimize the total free energy.
 
-\section{Optics calculation}
-One of the most crucial property of liquid crystal which makes LCD display function is the anisotropic refractive index. 
+\section{Optics and colorimetry calculation}
+Liquid crystal is a uniaixial material and it causes birefringence when light propagates through. Birefringence effect rotates the polarization of light and this effect is crucial for an LCD display to work. There are two refractive indexes for a uniaxial material, one of them is ordinary refractive index $n_o$, the other one is extraordinary refractive index $n_e$. When the light propagates through a uniaixal material, it experiences two different phase velocities caused by the two different refractive indexes and the polarization of light is changed by them.
 
-\section{Colorimetry calculation}
+To calculate the polarization change when light propagates through the liquid crystal layer in the LCD device, extended Jones matrix method\cite{POCHIYEH} is used.
+Traditional Jones matrix method doesn't consider refraction and reflection of light when it propagates through the interface of different media, extended Jones matrix method considered that effect by assuming $n_o \cong n_e$. Under that assumption, reflection and refraction of light can be included in Jones matrix through calculating Fresnel's equations. With extended Jones matrix method, OpenLCDFDM can acquire the transmission spectrum of the light emerged from the backlight propagating through the LCD device.
 
+The color perception of human eye can be described in various kinds of variables, such as \emph{CIE 1931 XYZ color space tristimulus values} or \emph{CIEUVW}\cite{wiki_colorimetry}. These values can be calculated from the transmission spectrum which is acqired from optics calculation. With the outcomes from optics calculation, it is relatively easy to acquire the tristimulus values.
+
+\section{The program}
+OpenLCDFDM uses C++ for the codes that performs liquid crystal dynamics, optics and colorimetry computing and adopts OpenMP for paralle computation. It uses Cython to provide Python interfaces. 
+
+The libraries used in C++ codes include Eigen3\cite{libeigen} and Blitz++\cite{blitz}. Blitz++ provides containers for multi-dimensional arrays, the number of dimension in a blitz++ array can be up to 11 dimensions, it is very convinient to use it to store the directors. Eigen3 also provides array containers and it provides functions such as \emph{SparseLU} or \emph{BiCGSTAB} for linear algebra, these solvers can be helpful while solving the Poisson's equation.
+
+Since the code provides Python interfaces, Python libraries can easily used in running simulations, analyzing and visualizing results.
 
 \section{Conclusion}
+This code is developed in hopes of bringing the knowledges of the liquid crystal device into open source world and preventing engineers or researchers from reinventing the wheel during their researches into the LCD device.
 
-
-\keywords{LCD simulation, finite-difference, optics, Cython, OpenMP} % Write down at least 3 Keywords
-
-
-\begin{thebibliography}{4}
+\begin{thebibliography}{7}
 \bibitem{wiki_lc}
 \href{http://en.wikipedia.org/wiki/Liquid_crystal}{Wikipedia: Liquid crystal}
-\bibitem{POCHIYEH}
-Optics of Liquid Crystal Display by Pochi Yeh and Claire Gu. ISBN: 0470181761
 \bibitem{ShinTson}
 Fundamentals of Liquid Crystal Devices by Shin-Tson Wu and Deng-Ke Yang. ISBN: 978-0-470-03202-2
+\bibitem{POCHIYEH}
+Optics of Liquid Crystal Display by Pochi Yeh and Claire Gu. ISBN: 0470181761
+\bibitem{wiki_colorimetry}
+\href{http://en.wikipedia.org/wiki/Colorimetry}{Wikipedia: Colorimetry}
+\bibitem{libeigen}
+\href{http://eigen.tuxfamily.org/index.php?title=Main_Page}{Eigen3}
+\bibitem{blitz}
+\href{http://sourceforge.net/projects/blitz/}{Blitz++}
 \bibitem{openlcdfdm}
 \href{https://github.com/xingularity/OpenLCDFDM}{OpenLCDFDM}
 \end{thebibliography}
