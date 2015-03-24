@@ -1,4 +1,4 @@
-\documentclass[a4paper]{article} %
+\documentclass[11pt, a4paper]{article} %
 \usepackage{multicol}
 \usepackage{graphicx,amssymb} %
 \usepackage{hyperref}
@@ -20,13 +20,11 @@
 
 \begin{document}
 
-% Type down your paper title
 \titulo{OpenLCDFDM: Liquid crystal device simulation with Python}
 
-% Authors
 \autores{Zong-han, Xie \\
-       \tt{icbm0926@gmail.com} % Only one corresponding e-mail
-       }%
+       \tt{icbm0926@gmail.com}
+       }
 
 \maketitle
 
@@ -45,23 +43,46 @@ OpenLCDFDM is a finite difference simulation code for liquid crystal device. It 
 
 LCD simulation contains three different parts of calculations. The first one is to simulate liquid crystal transition under external electric field, this transition is called Fréedericksz transition. The simulation of Fréedericksz transition is done by solving Poisson's equation and minimizing the Oseen-Frank free energy. The second one is to calculate polarization of light when it propagates through the liquid crystal device. Extended Jones matrix method is used to calculate polarization of light and the transmission. The last part is colorimetry calculation. It calculates human color perception by the light emitted from LCD devices.\\
 
-Simulation codes are written in C++ and Cython is used to provide Python interfaces, so that users can run simulations or build user interfaces through Python while no loss of performance.
-
 \section{Simulate liquid crystal dynamics}
+Elastic continuum theory is used to model liquid crystal dynamics for LCD. The free energy density for liquid crystal under external electric field (with constant voltage) contains elastic energy density (Oseen-Frank energy) of liquid crystal and electric energy. It is written as 
+\begin{eqnarray}
+f&=&\frac{1}{2}K_{11}(\nabla\cdot\vec{n})^2 + \frac{1}{2}K_{22}(\vec{n}\cdot\nabla\times\vec{n})^2 \nonumber \\
+&+& \frac{1}{2}K_{33}(\vec{n}\times\nabla\times\vec{n})^2 + q_{0}K_{22}(\vec{n}\cdot\nabla\times\vec{n}) \nonumber \\
+&-&\frac{1}{2}\vec{D}\cdot\vec{E}.
+\label{eq:oseen_frank}
+\end{eqnarray}
+$\vec{n}$ is the director of liquid crystal which gives the local orientation of the liquid crystal molecule. $K_{11}$, $K_{22}$ and $K_{33}$ are Frank elastic constants of liquid crystal. $q_0$ is the chirality and it's given by $q_0 = \frac{2\pi}{P_0}$ where $P_0$ is called the pitch over which the directors twist $360^{\circ}$. $\vec{D}$ and $\vec{E}$ is the the electric displacement and the electric field.
 
+OpenLCDFDM solves Poisson's equation to acquire the distributiuon of the electric field inside the LCD device. The Poisson's equation solved by OpenLCDFDM is the following: 
+\begin{eqnarray}
+\nabla\cdot\stackrel{\leftrightarrow}{\epsilon}\cdot\nabla\phi = 0
+\label{eq:Poisson_anisotropiv}
+\end{eqnarray}
+The dielectric constant is expressed in a tensor form due to anisotropic property of the liquid crystal material.
+
+When the electric field is applied, liquid crystal would reorientate to minimize the total free energy, this process is referred to as the Fréedericksz transition.
+The total free energy is expressed as following:
+\begin{eqnarray}
+F&=&\int f dxdydz.
+\label{eq:total_free_energy}
+\end{eqnarray}
+In order to minimize the total free energy under applied electric field, OpenLCDFDM solves Euler-Lagrange equations to acquire the distribution of the liquid crystal director which minimize the total free energy.
 
 \section{Optics calculation}
+One of the most crucial property of liquid crystal which makes LCD display function is the anisotropic refractive index. 
 
 \section{Colorimetry calculation}
+
 
 \section{Conclusion}
 
 
-\end{multicols}
 \keywords{LCD simulation, finite-difference, optics, Cython, OpenMP} % Write down at least 3 Keywords
 
 
-\begin{thebibliography}{9}
+\begin{thebibliography}{4}
+\bibitem{wiki_lc}
+\href{http://en.wikipedia.org/wiki/Liquid_crystal}{Wikipedia: Liquid crystal}
 \bibitem{POCHIYEH}
 Optics of Liquid Crystal Display by Pochi Yeh and Claire Gu. ISBN: 0470181761
 \bibitem{ShinTson}
@@ -69,4 +90,5 @@ Fundamentals of Liquid Crystal Devices by Shin-Tson Wu and Deng-Ke Yang. ISBN: 9
 \bibitem{openlcdfdm}
 \href{https://github.com/xingularity/OpenLCDFDM}{OpenLCDFDM}
 \end{thebibliography}
+\end{multicols}
 \end{document}
