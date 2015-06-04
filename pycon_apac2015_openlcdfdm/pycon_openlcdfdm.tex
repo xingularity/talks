@@ -21,7 +21,7 @@
 \frametitle{License of this slide}
 This slide made by Zong-han, Xie (\href{icbm0926@gmail.com}{icbm0926@gmail.com}) is licensed under Creative Commons Attribution-NonCommercial 4.0 International License. \newline
 \begin{center}
-\includegraphics[scale=2]{by-nc-sa.eps}
+\includegraphics[scale=1.5]{by-nc-sa.eps}
 \end{center}
 \end{frame}
 \AtBeginSection[]
@@ -53,7 +53,7 @@ Liquid crystal layer is served as an optical switch, it determines how much ligh
 \end{frame}
 %\begin{frame}
 %\frametitle{Birefringence and phase retardation}
-%If a material has anisotropic refractive index, it is called a birefringence material. It causes different light speed on different polarization. It canges phase diefference between
+%If a material has nonisotropic refractive index, it is called a birefringence material. It causes different light speed on different polarization. It canges phase diefference between
 %two polarization of light, it's called phase retardation.
 %\begin{center}
 %\includegraphics[scale=0.4]{retardation.png}
@@ -64,7 +64,7 @@ Liquid crystal layer is served as an optical switch, it determines how much ligh
 \begin{center}
 \includegraphics[scale=0.4]{ECB.jpg}
 \end{center}
-Due to the anisotropic dielectric property of liquid crystal, when external electric field is applied, the LC molecule will start to align with the electric field.
+Due to the nonisotropic dielectric property of liquid crystal, when external electric field is applied, the LC molecule will start to align with the electric field.
 \end{frame}
 \begin{frame}
 \frametitle{Calculation models}
@@ -72,21 +72,22 @@ Due to the anisotropic dielectric property of liquid crystal, when external elec
 \item<1-> Find LC distribution:
 \begin{itemize}
 \item<1-> Continuum theory for liquid crystal
-\item<1-> Laplace equation in anisotropic media
+\item<1-> Laplace equation in nonisotropic media
 \end{itemize}
 \item<1-> Optical calculation: Extended Jones matrix method
 \end{itemize}
 \end{frame}
 \begin{frame}
 \frametitle{Continuum theory for liquid crystal}
-Using Oseen-frank elastic free energy density to model the elastic property of liquid crystal molecules.
+Using Oseen-frank elastic free energy density to model the elastic property of the liquid crystal layer.
 The LC molecule distribution is acquired by minimizing the total energy density which includes elastic free energy density and electric field energy density.
+The total energy density has the following form ~\cite{ShinTson}.
 \begin{eqnarray}
 f(\vec x) &=& \frac{1}{2}K_{11}(\nabla\cdot\vec n)^2+\frac{1}{2}K_{22}(\vec n\cdot\nabla\times\vec n)^2 + \frac{1}{2}K_{22}(\vec n\times\nabla\times\vec n)^2\nonumber \\
 &&+q_0K_{22}(\vec n\cdot\nabla\times\vec n) - \frac{1}{2}K_{22}(\vec D\times\vec E)\nonumber
 \label{eq:free_energy}
 \end{eqnarray}
-where $\vec D = \epsilon(\vec x)\cdot \vec E$ and $\epsilon(\vec x)$ is a 3X3 dielectric tensor. $\vec n$ is a unit vector for local liquid crystal orientation.
+where $\vec D = \epsilon(\vec x)\cdot \vec E$ and $\epsilon(\vec x)$ is a 3X3 dielectric tensor. $\vec n(\vec{x})$ is a unit vector for local liquid crystal orientation.
 \end{frame}
 \begin{frame}
 \frametitle{Laplace equation in anisotropic media}
@@ -193,7 +194,8 @@ In the optical calculation.
 \begin{frame}
 \frametitle{References}
 \begin{thebibliography}{0}
-%\bibitem{SNGP} Supplementary Notes of General Physics by Jyhpyng Wang, \url{http://idv.sinica.edu.tw/jwang/SNGP/SNGP20090621.pdf}
+\bibitem{Bochi} Optics of Liquid Crystal Display by Pochi Yeh and Claire Gu. ISBN: 0470181761
+\bibitem{ShinTson} Fundamentals of Liquid Crystal Devices by Shin-Tson Wu and Deng-Ke Yang. ISBN: 978-0-470-03202-2
 \end{thebibliography}
 \end{frame}
 %\end{CJK}
