@@ -7,6 +7,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{movie15}
+\newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}} % for scaling math
 %\usepackage{CJKutf8}
 \title{OpenLCDFDM: an finite-difference LCD simulator}
 \author{\texorpdfstring{Zong-han, Xie\newline\url{icbm0926@gmail.com}}{Zong-han, Xie}}
@@ -51,14 +52,14 @@ Liquid crystal layer is served as an optical switch, it determines how much ligh
 \includegraphics[scale=0.4]{polarization.png}
 \end{center}
 \end{frame}
-\begin{frame}
-\frametitle{Birefringence and phase retardation}
-If a material has anisotropic refractive index, it is called a birefringence material. It causes different light speed on different polarization. It canges phase diefference between
-two polarization of light, it's called phase retardation.
-\begin{center}
-\includegraphics[scale=0.4]{retardation.png}
-\end{center}
-\end{frame}
+%\begin{frame}
+%\frametitle{Birefringence and phase retardation}
+%If a material has anisotropic refractive index, it is called a birefringence material. It causes different light speed on different polarization. It canges phase diefference between
+%two polarization of light, it's called phase retardation.
+%\begin{center}
+%\includegraphics[scale=0.4]{retardation.png}
+%\end{center}
+%\end{frame}
 \begin{frame}
 \frametitle{Electric controlled birefringence}
 \begin{center}
@@ -80,7 +81,7 @@ Due to the anisotropic dielectric property of liquid crystal, when external elec
 \begin{frame}
 \frametitle{Continuum theory for liquid crystal}
 Using Oseen-frank elastic free energy density to model the elastic property of liquid crystal molecules.
-The LC molecule distriution is acquired by minimizing the total energy density which includes elastic free energy density and electric field energy density.
+The LC molecule distribution is acquired by minimizing the total energy density which includes elastic free energy density and electric field energy density.
 \begin{eqnarray}
 f(\vec x) &=& \frac{1}{2}K_{11}(\nabla\cdot\vec n)^2+\frac{1}{2}K_{22}(\vec n\cdot\nabla\times\vec n)^2 + \frac{1}{2}K_{22}(\vec n\times\nabla\times\vec n)^2\nonumber \\
 &&+q_0K_{22}(\vec n\cdot\nabla\times\vec n) - \frac{1}{2}K_{22}(\vec D\times\vec E)\nonumber
@@ -92,20 +93,77 @@ where $\vec D = \epsilon(\vec x)\cdot \vec E$ and $\epsilon(\vec x)$ is a 3X3 di
 \frametitle{Laplace equation in anisotropic media}
 Laplace equation:
 \begin{eqnarray}
-\nabla \cdot \epsilon(\vec x) \cdot \nabla \phi(\vec x) &=& 0 \nonumber \\
+\nabla \cdot \overleftrightarrow{\epsilon}(\vec x) \cdot \nabla \phi(\vec x) &=& 0 \nonumber
 \label{eq:laplace}
 \end{eqnarray}
-$\epsilon(\vec x)$ is the local dielectric tensor decided by the local oritation of LC molecule. 
+$\overleftrightarrow{\epsilon}(\vec x)$ is the local dielectric tensor decided by the local oritation of LC molecule. 
+
+\begin{eqnarray}
+\overleftrightarrow{\epsilon}(\vec x) = 
+\scalemath{0.7}{
+\begin{bmatrix}
+\epsilon_{\perp}+\vartriangle\epsilon \sin^2\theta(\vec{x})\cos^2\phi(\vec{x}) & \frac{\vartriangle\epsilon}{2} sin^2\theta(\vec{x})\sin 2\phi(\vec{x}) & \frac{\vartriangle\epsilon}{2} \sin 2\theta(\vec{x})\cos\phi(\vec{x}) \\
+\frac{\vartriangle\epsilon}{2} \sin^2\theta(\vec{x})\sin 2\phi(\vec{x}) & \epsilon_{\perp}+\vartriangle\epsilon \sin^2\theta(\vec{x})\sin^2\phi(\vec{x}) & \frac{\vartriangle\epsilon}{2} \sin 2\theta(\vec{x})\sin\phi(\vec{x}) \\
+\frac{\vartriangle\epsilon}{2} \sin 2\theta(\vec{x})\cos\phi(\vec{x}) & \frac{\vartriangle\epsilon}{2} \sin 2\theta(\vec{x})\sin\phi(\vec{x}) & \epsilon_{\perp}+\vartriangle\epsilon \cos^2\theta(\vec{x})\\ 
+\end{bmatrix}}
+\nonumber
+\label{eq:dielectric_tensor}
+\end{eqnarray}
 \end{frame}
 \begin{frame}
 \frametitle{Extended Jones matrix method}
 Under the assumption that the two refractive index are very close, the original Jones matrix method can be extended to extended Jones matrx method.
+
 \end{frame}
 \begin{frame}
 \frametitle{OpenLCDFDM program structures}
 \end{frame}
 \begin{frame}
-\frametitle{Demo}
+\frametitle{Coordinate system and physical struture}
+\begin{center}
+\includegraphics[scale=0.38]{OneDimension_Coordinate.eps}
+\end{center}
+Human observer is on top of the CF alignment. Light propagates from light source (backlight) to human eye along z direction.
+\end{frame}
+\begin{frame}
+\frametitle{Parameters for liquid crystal calculation}
+\begin{itemize}
+\item Elastic constants: $K_{11}$, $K_{22}$ and $K_{33}$
+\item Rotational viscosity: $\gamma$
+\item Dielectric constants:
+	\begin{itemize}
+	\item Dielectric constants parallel to the principal axis $\epsilon_{\parallel}$
+	\item Dielectric constants perpendicular to the principal axis $\epsilon_{\perp}$
+	\end{itemize}
+\item Chirality: It's $q_0=2\pi/p_0$ where $p_0$ is the pitch.
+\item Boudary conditions: The directions of liquird crystal molecule on the surface of LC layer boundary.
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Parameters for optical calculation}
+In the optical calculation.
+\begin{itemize}
+\item Isotropic layer:
+	\begin{itemize}
+	\item Layer thickness
+	\item Refractive index distribution 
+	\end{itemize}
+\item Uniaxial layer:
+	\begin{itemize}
+	\item Layer thickness
+	\item Ordinary and extraordinary refractive index distribution.
+	\item Optical axis distribution. (It's not needed if this layer is LC layer.)
+	\end{itemize}
+\end{itemize}
+\end{frame}
+\begin{frame}
+\frametitle{Demo: V-T curve of twist nematic mode}
+\end{frame}
+\begin{frame}
+\frametitle{Demo: Cono plot of twist nematic mode}
+\end{frame}
+\begin{frame}
+\frametitle{Demo: LC distribution in twist nematic mode}
 \end{frame}
 \begin{frame}
 \frametitle{References}
@@ -113,28 +171,5 @@ Under the assumption that the two refractive index are very close, the original 
 %\bibitem{SNGP} Supplementary Notes of General Physics by Jyhpyng Wang, \url{http://idv.sinica.edu.tw/jwang/SNGP/SNGP20090621.pdf}
 \end{thebibliography}
 \end{frame}
-
-%---------------Examples of Latex---------
-%\begin{frame}
-%\frametitle{2nd page}
-%\begin{block}{block}
-%\begin{eqnarray}
-%\frac{1}{2}
-%\end{eqnarray}
-%\end{block}
-%\begin{alertblock}{alertblock}
-%alertblock content
-%\end{alertblock}
-%\end{frame}
-%\begin{frame}
-%\frametitle{3rd page}
-%\begin{itemize}
-%\item<1-> 第一
-%\item<1-> 2nd
-%\item<2-> 3rd
-%\item<3-> etc.
-%\hyperlink{1stpage}{\beamerbutton{ooxx}}
-%\end{itemize}
-%\end{frame}
 %\end{CJK}
 \end{document}
