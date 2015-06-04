@@ -19,7 +19,7 @@
 \end{frame}
 \begin{frame}[label=licensepage]
 \frametitle{License of this slide}
-Introduction to Fourier transform and signal analysis by Zong-han, Xie (\href{icbm0926@gmail.com}{icbm0926@gmail.com}) is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License. \newline
+This slide made by Zong-han, Xie (\href{icbm0926@gmail.com}{icbm0926@gmail.com}) is licensed under Creative Commons Attribution-NonCommercial 4.0 International License. \newline
 \begin{center}
 \includegraphics[scale=2]{by-nc-sa.eps}
 \end{center}
@@ -31,7 +31,6 @@ Introduction to Fourier transform and signal analysis by Zong-han, Xie (\href{ic
     \tableofcontents[currentsection]
   \end{frame}
 }
-
 \begin{frame}
 \frametitle{LCD on consumer products}
 \begin{center}
@@ -97,7 +96,7 @@ Laplace equation:
 \label{eq:laplace}
 \end{eqnarray}
 $\overleftrightarrow{\epsilon}(\vec x)$ is the local dielectric tensor decided by the local oritation of LC molecule. 
-
+\\
 \begin{eqnarray}
 \overleftrightarrow{\epsilon}(\vec x) = 
 \scalemath{0.7}{
@@ -109,11 +108,36 @@ $\overleftrightarrow{\epsilon}(\vec x)$ is the local dielectric tensor decided b
 \nonumber
 \label{eq:dielectric_tensor}
 \end{eqnarray}
+\\
+where $\theta(\vec{x})$ and $\phi(\vec{x})$ is the local orientation of liquid crystal molecule, $\vartriangle\epsilon = \epsilon_{\parallel}-\epsilon_{\perp}$.
 \end{frame}
 \begin{frame}
 \frametitle{Extended Jones matrix method}
-Under the assumption that the two refractive index are very close, the original Jones matrix method can be extended to extended Jones matrx method.
-
+Under the assumption of $n_e \approxeq n_o$, the e-ray and o-ray propagate on the same direction. With this assumption, Jones matrix can be modified into extended Jones matrix method.
+\begin{eqnarray}
+\vec{J}_{out} = 
+\scalemath{0.9}{
+\begin{bmatrix}
+{t'}_s & 0 \\ 0 & {t'}_p
+\end{bmatrix}
+\begin{bmatrix}
+\vec{e}\cdot\vec{s} & \vec{o}\cdot\vec{s} \\ \vec{e}\cdot\vec{p} & \vec{o}\cdot\vec{p}
+\end{bmatrix}
+\begin{bmatrix}
+e^{ik_e\vartriangle z} & 0 \\ 0 & e^{ik_o\vartriangle z}
+\end{bmatrix}
+\begin{bmatrix}
+\vec{s}\cdot\vec{e} & \vec{p}\cdot\vec{e} \\ \vec{s}\cdot\vec{o} & \vec{p}\cdot\vec{o}
+\end{bmatrix}
+\begin{bmatrix}
+t_s & 0 \\ 0 & t_p
+\end{bmatrix}
+}
+\vec{J}_{in} \\ \nonumber
+\nonumber
+\label{eq:extendedJones}
+\end{eqnarray}
+${t']}_s$, ${t'}_p$ ${t'}_s$ and ${t'}_p$
 \end{frame}
 \begin{frame}
 \frametitle{OpenLCDFDM program structures}
@@ -124,6 +148,7 @@ Under the assumption that the two refractive index are very close, the original 
 \includegraphics[scale=0.38]{OneDimension_Coordinate.eps}
 \end{center}
 Human observer is on top of the CF alignment. Light propagates from light source (backlight) to human eye along z direction.
+
 \end{frame}
 \begin{frame}
 \frametitle{Parameters for liquid crystal calculation}
