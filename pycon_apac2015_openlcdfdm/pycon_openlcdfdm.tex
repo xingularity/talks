@@ -21,7 +21,7 @@
 \frametitle{License of this slide}
 This slide made by Zong-han, Xie (\href{icbm0926@gmail.com}{icbm0926@gmail.com}) is licensed under Creative Commons Attribution-NonCommercial 4.0 International License. \newline
 \begin{center}
-\includegraphics[scale=1.5]{by-nc-sa.eps}
+\includegraphics[scale=1.0]{by-nc-sa.eps}
 \end{center}
 \end{frame}
 \AtBeginSection[]
@@ -60,25 +60,34 @@ Liquid crystal layer is served as an optical switch, it determines how much ligh
 %\end{center}
 %\end{frame}
 \begin{frame}
-\frametitle{Electric controlled birefringence}
+\frametitle{Birefringence}
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Electric controlled LC orientation}
 \begin{center}
 \includegraphics[scale=0.4]{ECB.jpg}
 \end{center}
 Due to the nonisotropic dielectric property of liquid crystal, when external electric field is applied, the LC molecule will start to align with the electric field.
 \end{frame}
 \begin{frame}
+\frametitle{LCD operating modes}
+
+\end{frame}
+\begin{frame}
 \frametitle{Calculation models}
 \begin{itemize}
 \item<1-> Find LC distribution:
 \begin{itemize}
-\item<1-> Continuum theory for liquid crystal
+\item<1-> Oseen-frank free energy for liquid crystal
 \item<1-> Laplace equation in nonisotropic media
 \end{itemize}
 \item<1-> Optical calculation: Extended Jones matrix method
 \end{itemize}
 \end{frame}
 \begin{frame}
-\frametitle{Continuum theory for liquid crystal}
+\frametitle{Calculate LC Orientation}
 Using Oseen-frank elastic free energy density to model the elastic property of the liquid crystal layer.
 The LC molecule distribution is acquired by minimizing the total energy density which includes elastic free energy density and electric field energy density.
 The total energy density has the following form ~\cite{ShinTson}.
@@ -90,7 +99,16 @@ f(\vec x) &=& \frac{1}{2}K_{11}(\nabla\cdot\vec n)^2+\frac{1}{2}K_{22}(\vec n\cd
 where $\vec D = \epsilon(\vec x)\cdot \vec E$ and $\epsilon(\vec x)$ is a 3X3 dielectric tensor. $\vec n(\vec{x})$ is a unit vector for local liquid crystal orientation.
 \end{frame}
 \begin{frame}
-\frametitle{Laplace equation in anisotropic media}
+\frametitle{Calculate LC Orientation}
+To calculate minimum free energy, \emph{Euler-Lagrange equation} is applied. OpenLCDFDM uses finite difference method to solve Euler-Lagrange equation of the total energy density to get liquid crysal distribution of minimized free energy.\\
+The Euler-Lagrange equation of the free energy is solved through iterative method.
+\begin{eqnarray}
+\frac{\partial n_i}{\partial t} = \frac{1}{\gamma} \left( -\frac{\delta f}{\delta n_i} \right), i = x, y, z \\ \nonumber
+\end{eqnarray}
+$\gamma$ uses rotational viscosity.
+\end{frame}
+\begin{frame}
+\frametitle{Laplace equation in nonisotropic and inhomogeneous media}
 Laplace equation:
 \begin{eqnarray}
 \nabla \cdot \overleftrightarrow{\epsilon}(\vec x) \cdot \nabla \phi(\vec x) &=& 0 \nonumber
@@ -113,7 +131,7 @@ $\overleftrightarrow{\epsilon}(\vec x)$ is the local dielectric tensor decided b
 where $\theta(\vec{x})$ and $\phi(\vec{x})$ is the local orientation of liquid crystal molecule, $\vartriangle\epsilon = \epsilon_{\parallel}-\epsilon_{\perp}$.
 \end{frame}
 \begin{frame}
-\frametitle{Extended Jones matrix method}
+\frametitle{Extended Jones matrix method for uniaixal media}
 Under the assumption of $n_e \approxeq n_o$, the e-ray and o-ray propagate on the same direction. With this assumption, Jones matrix can be modified into extended Jones matrix method.
 \begin{eqnarray}
 \vec{J}_{out} = 
@@ -138,50 +156,74 @@ t_s & 0 \\ 0 & t_p
 \nonumber
 \label{eq:extendedJones}
 \end{eqnarray}
-${t']}_s$, ${t'}_p$ ${t'}_s$ and ${t'}_p$
+\begin{center}
+\includegraphics[scale=0.25]{extj_uniaxial.eps}
+\end{center}
+${t'}_s$, ${t'}_p$ ${t'}_s$ and ${t'}_p$ are transmission rate for s wave and p wave acquired through Fresnel's euations.
+\end{frame}
+\begin{frame}
+\frametitle{Extended Jones matrix method for isotropic mediaand calculation for transmission rate}
+For isotropic media, the Jones matrix only needs to calculate transmission rate for s wave and p wave.
+\begin{eqnarray}
+\vec{J}_{out} = 
+\scalemath{0.9}{
+\begin{bmatrix}
+{t}_s & 0 \\ 0 & {t}_p
+\end{bmatrix}
+}
+\vec{J}_{in} \nonumber
+\nonumber
+\label{eq:extendedJones_iso}
+\end{eqnarray}
+Transmision rate for incoherent light source:
+\begin{eqnarray}
+M = M_1M_2M_3... = 
+\begin{bmatrix}
+m_{11} & m_{12} \\ m_{21} & m_{22}
+\end{bmatrix}
+\nonumber
+\end{eqnarray}
+\begin{eqnarray}
+T = 0.5*(m_{11}^2 + m_{12}^2 + m_{21}^2 + m_{22}^2) \nonumber
+\end{eqnarray}
 \end{frame}
 \begin{frame}
 \frametitle{OpenLCDFDM program structures}
-\end{frame}
-\begin{frame}
-\frametitle{Coordinate system and physical struture}
 \begin{center}
-\includegraphics[scale=0.38]{OneDimension_Coordinate.eps}
+\includegraphics[scale=0.4]{openlcdfdm_structure.eps}
 \end{center}
-Human observer is on top of the CF alignment. Light propagates from light source (backlight) to human eye along z direction.
-
 \end{frame}
-\begin{frame}
-\frametitle{Parameters for liquid crystal calculation}
-\begin{itemize}
-\item Elastic constants: $K_{11}$, $K_{22}$ and $K_{33}$
-\item Rotational viscosity: $\gamma$
-\item Dielectric constants:
-	\begin{itemize}
-	\item Dielectric constants parallel to the principal axis $\epsilon_{\parallel}$
-	\item Dielectric constants perpendicular to the principal axis $\epsilon_{\perp}$
-	\end{itemize}
-\item Chirality: It's $q_0=2\pi/p_0$ where $p_0$ is the pitch.
-\item Boudary conditions: The directions of liquird crystal molecule on the surface of LC layer boundary.
-\end{itemize}
-\end{frame}
-\begin{frame}
-\frametitle{Parameters for optical calculation}
-In the optical calculation.
-\begin{itemize}
-\item Isotropic layer:
-	\begin{itemize}
-	\item Layer thickness
-	\item Refractive index distribution 
-	\end{itemize}
-\item Uniaxial layer:
-	\begin{itemize}
-	\item Layer thickness
-	\item Ordinary and extraordinary refractive index distribution.
-	\item Optical axis distribution. (It's not needed if this layer is LC layer.)
-	\end{itemize}
-\end{itemize}
-\end{frame}
+%\begin{frame}
+%\frametitle{Parameters for liquid crystal calculation}
+%\begin{itemize}
+%\item Elastic constants: $K_{11}$, $K_{22}$ and $K_{33}$
+%\item Rotational viscosity: $\gamma$
+%\item Dielectric constants:
+%	\begin{itemize}
+%	\item Dielectric constants parallel to the principal axis $\epsilon_{\parallel}$
+%	\item Dielectric constants perpendicular to the principal axis $\epsilon_{\perp}$
+%	\end{itemize}
+%\item Chirality: It's $q_0=2\pi/p_0$ where $p_0$ is the pitch.
+%\item Boudary conditions: The directions of liquird crystal molecule on the surface of LC layer boundary.
+%\end{itemize}
+%\end{frame}
+%\begin{frame}
+%\frametitle{Parameters for optical calculation}
+%In the optical calculation.
+%\begin{itemize}
+%\item Isotropic layer:
+%	\begin{itemize}
+%	\item Layer thickness
+%	\item Refractive index distribution 
+%	\end{itemize}
+%\item Uniaxial layer:
+%	\begin{itemize}
+%	\item Layer thickness
+%	\item Ordinary and extraordinary refractive index distribution.
+%	\item Optical axis distribution. (It's not needed if this layer is LC layer.)
+%	\end{itemize}
+%\end{itemize}
+%\end{frame}
 \begin{frame}
 \frametitle{Demo: V-T curve of twist nematic mode}
 \end{frame}
@@ -192,10 +234,21 @@ In the optical calculation.
 \frametitle{Demo: LC distribution in twist nematic mode}
 \end{frame}
 \begin{frame}
+\frametitle{Future works}
+\begin{itemize}
+\item Calculate Stokes value to track change of polarization.
+\item Implement Berreman 4X4 method
+\item Add bixial material support for extended Jones matrix method
+\item Bound OpenLCDFDM with FDTD simulation module(ex. meep-FDTD)
+\item Move toward 2D and 3D simulation
+\end{itemize}
+\end{frame}
+\begin{frame}
 \frametitle{References}
 \begin{thebibliography}{0}
 \bibitem{Bochi} Optics of Liquid Crystal Display by Pochi Yeh and Claire Gu. ISBN: 0470181761
 \bibitem{ShinTson} Fundamentals of Liquid Crystal Devices by Shin-Tson Wu and Deng-Ke Yang. ISBN: 978-0-470-03202-2
+\bibitem{modes}{\url{http://www.tftcentral.co.uk/articles/panel_technologies.htm}}
 \end{thebibliography}
 \end{frame}
 %\end{CJK}
