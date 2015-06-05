@@ -61,9 +61,34 @@ Liquid crystal layer is served as an optical switch, it determines how much ligh
 %\end{frame}
 \begin{frame}
 \frametitle{Birefringence}
-
+\begin{center}
+\includegraphics[scale=0.6]{calcite_birefringence.jpg}
+\end{center}
 \end{frame}
-
+\begin{frame}
+\frametitle{Birefringence}
+\begin{center}
+\includegraphics[scale=0.4]{incident_birefreingence.eps}
+\end{center}
+\end{frame}
+\begin{frame}
+\frametitle{Birefringence}
+A material with two refractive index means that when light propagates through this material \emph{it sees two light speed}. \\
+The other important feature for birefringence is that it causes \em{phase retardation}.
+\begin{center}
+\includegraphics[scale=0.4]{phase_retardation.jpg}
+\end{center}
+\end{frame}
+\begin{frame}
+\frametitle{Birefringence}
+\begin{center}
+\includegraphics[scale=0.3]{n_eff.eps}
+\end{center}
+If the light incidents with an angle relative to the optical axis, the refractive index for extraordinary light is $n_e(\theta)$.
+\begin{eqnarray}
+n_e(\theta) = \sqrt{\frac{\cos^2(\theta)}{{n_o}^2}+\frac{\sin^2(\theta)}{{n_e}^2}}
+\end{eqnarray}
+\end{frame}
 \begin{frame}
 \frametitle{Electric controlled LC orientation}
 \begin{center}
@@ -92,8 +117,8 @@ Using Oseen-frank elastic free energy density to model the elastic property of t
 The LC molecule distribution is acquired by minimizing the total energy density which includes elastic free energy density and electric field energy density.
 The total energy density has the following form ~\cite{ShinTson}.
 \begin{eqnarray}
-f(\vec x) &=& \frac{1}{2}K_{11}(\nabla\cdot\vec n)^2+\frac{1}{2}K_{22}(\vec n\cdot\nabla\times\vec n)^2 + \frac{1}{2}K_{22}(\vec n\times\nabla\times\vec n)^2\nonumber \\
-&&+q_0K_{22}(\vec n\cdot\nabla\times\vec n) - \frac{1}{2}K_{22}(\vec D\times\vec E)\nonumber
+f(\vec x) &=& \frac{1}{2}K_{11}(\nabla\cdot\vec n)^2+\frac{1}{2}K_{22}(\vec n\cdot\nabla\times\vec n)^2 + \frac{1}{2}K_{33}(\vec n\times\nabla\times\vec n)^2\nonumber \\
+&&+q_0K_{22}(\vec n\cdot\nabla\times\vec n) - \frac{1}{2}(\vec D\cdot\vec E)\nonumber
 \label{eq:free_energy}
 \end{eqnarray}
 where $\vec D = \epsilon(\vec x)\cdot \vec E$ and $\epsilon(\vec x)$ is a 3X3 dielectric tensor. $\vec n(\vec{x})$ is a unit vector for local liquid crystal orientation.
