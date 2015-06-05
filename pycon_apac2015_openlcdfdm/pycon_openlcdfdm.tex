@@ -79,7 +79,7 @@ n_{air}\sin(\theta_1) = n_{e}\sin(\theta_e) \nonumber
 \begin{frame}
 \frametitle{Birefringence}
 A material with two refractive index means that when light propagates through this material \emph{it sees two light speed}. \\
-The other important feature for birefringence is that it causes \em{phase retardation}.
+The other important feature for birefringence is that it causes \emph{phase retardation} and the polarization of light is changed.
 \begin{center}
 \includegraphics[scale=0.4]{phase_retardation.jpg}
 \end{center}
@@ -103,8 +103,9 @@ Due to the nonisotropic dielectric property of liquid crystal, when external ele
 \end{frame}
 \begin{frame}
 \frametitle{Calculation models}
+In order to model such device, one has to model the transition liquid crystal orientation under electric field and calculate phase retardation under given LC distribution.\\
 \begin{itemize}
-\item<1-> Find LC distribution:
+\item<1-> Model LC distribution:
 \begin{itemize}
 \item<1-> Oseen-frank free energy for liquid crystal
 \item<1-> Laplace equation in nonisotropic media
@@ -131,13 +132,19 @@ f(\vec x) &=& \frac{1}{2}K_{11}(\nabla\cdot\vec n)^2+\frac{1}{2}K_{22}(\vec n\cd
 where $\vec D = \overleftrightarrow{\epsilon}(\vec x)\cdot \vec E$ and $\overleftrightarrow{\epsilon}(\vec x)$ is a 3X3 dielectric tensor. $\vec n(\vec{x})$ is a unit vector for local liquid crystal orientation.
 \end{frame}
 \begin{frame}
+\frametitle{Calculate LC Orientation}
+\begin{center}
+\includegraphics[scale=0.3]{lc_k_const.eps}
+\end{center}
+\end{frame}
+\begin{frame}
 \frametitle{Calculate LC orientation}
 To calculate minimize free energy, \emph{Euler-Lagrange equation} is applied. OpenLCDFDM uses finite difference method to solve Euler-Lagrange equation of the total energy density to get liquid crysal distribution of minimized free energy.\\
 The Euler-Lagrange equation of the free energy is solved through iterative method.
 \begin{eqnarray}
 \frac{\partial n_i}{\partial t} = \frac{1}{\gamma} \left( -\frac{\delta f}{\delta n_i} \right), i = x, y, z \\ \nonumber
 \end{eqnarray}
-$\gamma$ is the viscosity.
+$\gamma$ is the rotational viscosity.
 \end{frame}
 \begin{frame}
 \frametitle{Laplace equation in nonisotropic and inhomogeneous media}
@@ -192,6 +199,7 @@ t_s & 0 \\ 0 & t_p
 \includegraphics[scale=0.25]{extj_uniaxial.eps}
 \end{center}
 ${t'}_s$, ${t'}_p$ ${t'}_s$ and ${t'}_p$ are transmission rate for s wave and p wave acquired through Fresnel's euations.
+
 \end{frame}
 \begin{frame}
 \frametitle{Extended Jones matrix method for isotropic mediaand calculation for transmission rate}
@@ -218,6 +226,10 @@ m_{11} & m_{12} \\ m_{21} & m_{22}
 \end{eqnarray}
 \begin{eqnarray}
 T = 0.5*(m_{11}^2 + m_{12}^2 + m_{21}^2 + m_{22}^2) \nonumber
+\end{eqnarray}
+For multi-wavelength calculation:
+\begin{eqnarray}
+T = \frac{\int T(\lambda)P(\lambda)V(\lambda) d\lambda}{\int P(\lambda)V(\lambda) d\lambda} \nonumber
 \end{eqnarray}
 \end{frame}
 \begin{frame}
@@ -259,18 +271,25 @@ T = 0.5*(m_{11}^2 + m_{12}^2 + m_{21}^2 + m_{22}^2) \nonumber
 %\end{frame}
 \begin{frame}
 \frametitle{Setup parameters for FDM solver}
+\begin{center}
+\includegraphics[scale=0.4]{setup_fdm.eps}
+\end{center}
 \end{frame}
 \begin{frame}
 \frametitle{Setup parameters for optical calculation}
+\begin{center}
+\includegraphics[scale=0.4]{setup_opt.eps}
+\end{center}
 \end{frame}
 \begin{frame}
-\frametitle{Demo: V-T curve of twist nematic mode}
+\frametitle{Calculate and get results}
+\begin{center}
+\includegraphics[scale=0.4]{calc_results.eps}
+\end{center}
 \end{frame}
 \begin{frame}
-\frametitle{Demo: Cono plot of twist nematic mode}
-\end{frame}
-\begin{frame}
-\frametitle{Demo: LC distribution in twist nematic mode}
+\frametitle{Demo: V-T curve of TN mode}
+
 \end{frame}
 \begin{frame}
 \frametitle{Future works}
