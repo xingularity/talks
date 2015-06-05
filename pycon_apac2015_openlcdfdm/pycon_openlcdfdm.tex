@@ -67,9 +67,14 @@ Liquid crystal layer is served as an optical switch, it determines how much ligh
 \end{frame}
 \begin{frame}
 \frametitle{Birefringence}
+A material with two refractive index ($n_o$ and $n_e$) means there are two refracted ray.
 \begin{center}
-\includegraphics[scale=0.4]{incident_birefreingence.eps}
+\includegraphics[scale=0.3]{incident_birefreingence.eps}
 \end{center}
+\begin{eqnarray}
+n_{air}\sin(\theta_1) = n_{o}\sin(\theta_o) \\ \nonumber
+n_{air}\sin(\theta_1) = n_{e}\sin(\theta_e) \nonumber
+\end{eqnarray}
 \end{frame}
 \begin{frame}
 \frametitle{Birefringence}
@@ -97,10 +102,6 @@ n_e(\theta) = \sqrt{\frac{\cos^2(\theta)}{{n_o}^2}+\frac{\sin^2(\theta)}{{n_e}^2
 Due to the nonisotropic dielectric property of liquid crystal, when external electric field is applied, the LC molecule will start to align with the electric field.
 \end{frame}
 \begin{frame}
-\frametitle{LCD operating modes}
-
-\end{frame}
-\begin{frame}
 \frametitle{Calculation models}
 \begin{itemize}
 \item<1-> Find LC distribution:
@@ -112,6 +113,12 @@ Due to the nonisotropic dielectric property of liquid crystal, when external ele
 \end{itemize}
 \end{frame}
 \begin{frame}
+\frametitle{OpenLCDFDM 1D structure}
+\begin{center}
+\includegraphics[scale=0.4]{OneDimension_Coordinate.eps}
+\end{center}
+\end{frame}
+\begin{frame}
 \frametitle{Calculate LC Orientation}
 Using Oseen-frank elastic free energy density to model the elastic property of the liquid crystal layer.
 The LC molecule distribution is acquired by minimizing the total energy density which includes elastic free energy density and electric field energy density.
@@ -121,16 +128,16 @@ f(\vec x) &=& \frac{1}{2}K_{11}(\nabla\cdot\vec n)^2+\frac{1}{2}K_{22}(\vec n\cd
 &&+q_0K_{22}(\vec n\cdot\nabla\times\vec n) - \frac{1}{2}(\vec D\cdot\vec E)\nonumber
 \label{eq:free_energy}
 \end{eqnarray}
-where $\vec D = \epsilon(\vec x)\cdot \vec E$ and $\epsilon(\vec x)$ is a 3X3 dielectric tensor. $\vec n(\vec{x})$ is a unit vector for local liquid crystal orientation.
+where $\vec D = \overleftrightarrow{\epsilon}(\vec x)\cdot \vec E$ and $\overleftrightarrow{\epsilon}(\vec x)$ is a 3X3 dielectric tensor. $\vec n(\vec{x})$ is a unit vector for local liquid crystal orientation.
 \end{frame}
 \begin{frame}
-\frametitle{Calculate LC Orientation}
-To calculate minimum free energy, \emph{Euler-Lagrange equation} is applied. OpenLCDFDM uses finite difference method to solve Euler-Lagrange equation of the total energy density to get liquid crysal distribution of minimized free energy.\\
+\frametitle{Calculate LC orientation}
+To calculate minimize free energy, \emph{Euler-Lagrange equation} is applied. OpenLCDFDM uses finite difference method to solve Euler-Lagrange equation of the total energy density to get liquid crysal distribution of minimized free energy.\\
 The Euler-Lagrange equation of the free energy is solved through iterative method.
 \begin{eqnarray}
 \frac{\partial n_i}{\partial t} = \frac{1}{\gamma} \left( -\frac{\delta f}{\delta n_i} \right), i = x, y, z \\ \nonumber
 \end{eqnarray}
-$\gamma$ uses rotational viscosity.
+$\gamma$ is the viscosity.
 \end{frame}
 \begin{frame}
 \frametitle{Laplace equation in nonisotropic and inhomogeneous media}
@@ -177,7 +184,7 @@ e^{ik_e\vartriangle z} & 0 \\ 0 & e^{ik_o\vartriangle z}
 t_s & 0 \\ 0 & t_p
 \end{bmatrix}
 }
-\vec{J}_{in} \\ \nonumber
+\vec{J}_{in} \nonumber
 \nonumber
 \label{eq:extendedJones}
 \end{eqnarray}
@@ -200,6 +207,7 @@ For isotropic media, the Jones matrix only needs to calculate transmission rate 
 \nonumber
 \label{eq:extendedJones_iso}
 \end{eqnarray}
+In above formulas, $J_{in}$ and $J_{out}$ are the Jones vectors of light.\\
 Transmision rate for incoherent light source:
 \begin{eqnarray}
 M = M_1M_2M_3... = 
@@ -250,6 +258,12 @@ T = 0.5*(m_{11}^2 + m_{12}^2 + m_{21}^2 + m_{22}^2) \nonumber
 %\end{itemize}
 %\end{frame}
 \begin{frame}
+\frametitle{Setup parameters for FDM solver}
+\end{frame}
+\begin{frame}
+\frametitle{Setup parameters for optical calculation}
+\end{frame}
+\begin{frame}
 \frametitle{Demo: V-T curve of twist nematic mode}
 \end{frame}
 \begin{frame}
@@ -261,10 +275,10 @@ T = 0.5*(m_{11}^2 + m_{12}^2 + m_{21}^2 + m_{22}^2) \nonumber
 \begin{frame}
 \frametitle{Future works}
 \begin{itemize}
-\item Calculate Stokes value to track change of polarization.
+\item Calculate Stokes values to track change of polarization.
 \item Implement Berreman 4X4 method
 \item Add bixial material support for extended Jones matrix method
-\item Bound OpenLCDFDM with FDTD simulation module(ex. meep-FDTD)
+\item Bind OpenLCDFDM with FDTD simulation module(ex. meep-FDTD)
 \item Move toward 2D and 3D simulation
 \end{itemize}
 \end{frame}
@@ -273,7 +287,6 @@ T = 0.5*(m_{11}^2 + m_{12}^2 + m_{21}^2 + m_{22}^2) \nonumber
 \begin{thebibliography}{0}
 \bibitem{Bochi} Optics of Liquid Crystal Display by Pochi Yeh and Claire Gu. ISBN: 0470181761
 \bibitem{ShinTson} Fundamentals of Liquid Crystal Devices by Shin-Tson Wu and Deng-Ke Yang. ISBN: 978-0-470-03202-2
-\bibitem{modes}{\url{http://www.tftcentral.co.uk/articles/panel_technologies.htm}}
 \end{thebibliography}
 \end{frame}
 %\end{CJK}
