@@ -7,6 +7,7 @@
 \usepackage{amssymb}
 \usepackage{graphicx}
 \usepackage{movie15}
+\usepackage{hyperref}
 \newcommand\scalemath[2]{\scalebox{#1}{\mbox{\ensuremath{\displaystyle #2}}}} % for scaling math
 %\usepackage{CJKutf8}
 \title{OpenLCDFDM: an finite-difference LCD simulator}
@@ -131,7 +132,7 @@ f(\vec x) &=& \frac{1}{2}K_{11}(\nabla\cdot\vec n)^2+\frac{1}{2}K_{22}(\vec n\cd
 \end{eqnarray}
 where $\vec D = \overleftrightarrow{\epsilon}(\vec x)\cdot \vec E$ and $\overleftrightarrow{\epsilon}(\vec x)$ is a 3X3 dielectric tensor. $\vec n(\vec{x})$ is a unit vector for local liquid crystal orientation.
 \end{frame}
-\begin{frame}
+\begin{frame}[label=k_constants_graph]
 \frametitle{Calculate LC Orientation}
 \begin{center}
 \includegraphics[scale=0.3]{lc_k_const.eps}
@@ -296,8 +297,7 @@ T = \frac{\int T(\lambda)P(\lambda)V(\lambda) d\lambda}{\int P(\lambda)V(\lambda
 \begin{frame}
 \frametitle{Demo: Normally white vs. normally black}
 \begin{center}
-\includegraphics[scale=0.4]{TN_NW_NB.eps}\\
-Reference: Optics of Liquid Crystal Display by Pochi Yeh and Claire Gu.
+\includegraphics[scale=0.40]{TN_NW_NB.eps}\\
 \end{center}
 \end{frame}
 \begin{frame}
@@ -330,9 +330,10 @@ Reference: Optics of Liquid Crystal Display by Pochi Yeh and Claire Gu.
 \end{thebibliography}
 \end{frame}
 \begin{frame}
-\frametitle{Errata}
+\frametitle{Errata and supplements}
 \begin{itemize}
 \item The word "nonisotropic" in this slide should be "anisotropic".
+\item In page \hyperlink{k_constants_graph}{\beamergotobutton{Calculate LC orientation}}, the graph to describe k constants is referenced from \cite{Pochi}.
 \end{itemize}
 \end{frame}
 %\end{CJK}
